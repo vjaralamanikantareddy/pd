@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Feed with Pose Detection</title>
+</head>
+<body>
+    <h1>Video Feed with Pose Detection</h1>
+    
+    <img id="videoElement" src="{{ url_for('video_feed') }}" width="640" height="480">
+
+    <div>
+        <button id="startButton" onclick="startPoseDetection()">Start Pose Detection</button>
+        <button id="stopButton" onclick="stopPoseDetection()">Stop Pose Detection</button>
+    </div>
+
+    <script>
+        var startButton = document.getElementById('startButton');
+        var stopButton = document.getElementById('stopButton');
+
+        function startPoseDetection() {
+            fetch('/start_pose_detection')
+                .then(response => {
+                    if (response.ok) {
+                        startButton.disabled = true;
+                        stopButton.disabled = false;
+                    }
+                })
+                .catch(error => console.error('Error starting pose detection:', error));
+        }
+
+        function stopPoseDetection() {
+            fetch('/stop_pose_detection')
+                .then(response => {
+                    if (response.ok) {
+                        startButton.disabled = false;
+                        stopButton.disabled = true;
+                    }
+                })
+                .catch(error => console.error('Error stopping pose detection:', error));
+        }
+    </script>
+</body>
+</html>
